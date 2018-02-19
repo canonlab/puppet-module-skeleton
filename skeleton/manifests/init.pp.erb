@@ -15,7 +15,7 @@ class <%= metadata.name %> (
 ) inherits ::<%= metadata.name %>::params {
 
   # validate parameters here
-  validate_bool($enabled)
+  validate_legacy(Boolean, 'validate_bool', $enabled)
   if $enabled {
     class { '::<%= metadata.name %>::install': } ->
     class { '::<%= metadata.name %>::config': } ~>
