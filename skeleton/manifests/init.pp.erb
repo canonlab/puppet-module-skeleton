@@ -11,14 +11,15 @@
 #   e.g. "Specify one or more upstream ntp servers as an array."
 #
 class <%= metadata.name %> (
-  $package_name = $::<%= metadata.name %>::params::package_name,
-  $service_name = $::<%= metadata.name %>::params::service_name,
+  $enabled = $::<%= metadata.name %>::params::enabled,
 ) inherits ::<%= metadata.name %>::params {
 
   # validate parameters here
-
-  class { '::<%= metadata.name %>::install': } ->
-  class { '::<%= metadata.name %>::config': } ~>
-  class { '::<%= metadata.name %>::service': } ->
-  Class['::<%= metadata.name %>']
+  validate_bool($enabled)
+  if $enabled {
+    class { '::<%= metadata.name %>::install': } ->
+    class { '::<%= metadata.name %>::config': } ~>
+    class { '::<%= metadata.name %>::service': } ->
+    Class['::<%= metadata.name %>']
+  }
 }
